@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+		var _curItem  = 1;
+		var _curIndex = 1;
+		var _list = [0];
+		/*
+			push 
+				Simulates pushing single element into list. Elements are incremented based
+				on items pushed.
+		*/
+		function push()
+		{
+			var newString;
+			_list[_curIndex] = _curItem;
+			newString = formatSingleListElement(_curIndex);
+			printList(newString);
+			++_curIndex;
+			++_curItem;
+		}
+		
+		/*
+			pop 
+				Simulates popping single elements from list. Decrements list positional index based
+				on the current insert position.
+		*/
+		function pop()
+		{
+			if(_curIndex > 0)
+			{
+				_list[_curIndex] = "EMPTY";
+				--_curIndex;
+				printList();
+			}
+		}
+		
+		/*
+			printList 
+				Prints created list to canvas based on given string parameter.
+		*/
+		function printList(newString)
+		{
+			var list = document.getElementById("listItems").innerHTML;
+			if(_curIndex == 0)
+			{
+				list = "List: 0";
+			}
+			else if(newString)
+			{
+				list += newString;
+			}
+			else
+			{
+				list = redrawList();
+			}
+			document.getElementById("listItems").innerHTML = list;
+		}
+		
+		/*
+			redrawList 
+				Clears canvas and redraws list.
+		*/
+		function redrawList()
+		{
+			var newList = "List: 0";
+			for(var i = 1; i < _curIndex; ++i)
+			{
+				newList += formatSingleListElement(i);
+			}
+			return newList;
+		}
+		
+		/*
+			formatSingleListElement 
+				inserts formated string for list elements and returns formated string.
+		*/
+		function formatSingleListElement(index)
+		{
+			var formatedElement = " , " + _list[index];
+			return formatedElement;
+		}
+	</script>
+  </head>
+  <body>
+    <h1>List Push Pop</h1>
+	<p id="listItems">List: 0</p>
+	<br>
+    <button type="button" onclick="push()">Push</button>
+	<button type="button" onclick="pop()">Pop</button>
+  </body>
+</html>
