@@ -1,19 +1,21 @@
 #include <iostream>
 
+template<class T>
 struct Node
 {
-	float data;
-	Node* next;
+	T data;
+	Node<T>* next;
 };
 
 /*
 PushFront
 	Insert items to front of list
 */
-void PushFront(Node** head, float data)
+template<class T>
+void PushFront(Node<T>** head, T data)
 {
 	//Create the new node
-	Node* newNode = new Node;
+	Node<T>* newNode = new Node<T>;
 	newNode->data = data;
 	//Check if the given head node is NULL
 	if(*head == NULL)
@@ -32,10 +34,11 @@ void PushFront(Node** head, float data)
 	}
 }
 
-void PushBack(Node** head, float data)
+template<class T>
+void PushBack(Node<T>** head, T data)
 {
 	//Create the new node
-	Node* newNode = new Node;
+	Node<T>* newNode = new Node<T>;
 	newNode->data = data;
 	//Check if the given head node is NULL
 	if(*head == NULL)
@@ -48,7 +51,7 @@ void PushBack(Node** head, float data)
 	else
 	{
 		//Store copy of head node
-		Node* iter = *head;
+		Node<T>* iter = *head;
 		//Iterate over list until we reach the end
 		while(iter->next != NULL)
 		{
@@ -64,9 +67,10 @@ void PushBack(Node** head, float data)
 Delete
 	Removes element from back of list
 */
-void Delete(Node** head, int index)
+template<class T>
+void Delete(Node<T>** head, int index)
 {
-	Node* iter = *head;
+	Node<T>* iter = *head;
 	int indexIter = 0;
 	//Check if the head node is valid
 	if(*head == NULL)
@@ -77,7 +81,7 @@ void Delete(Node** head, int index)
 	else if(indexIter == index)
 	{
 		//Store the next node - directly from the head node
-		Node* holdNode = (*head)->next;
+		Node<T>* holdNode = (*head)->next;
 		//Delete the head 
 		delete *head;
 		//Reset the head node to the hold node
@@ -96,7 +100,7 @@ void Delete(Node** head, int index)
 				if(iter->next)
 				{
 					//Store the next node's next node
-					Node* holdNode = iter->next->next;
+					Node<T>* holdNode = iter->next->next;
 					//Delete the next node
 					delete iter->next;
 					//Reset the next node to the stored node
@@ -119,10 +123,10 @@ void Delete(Node** head, int index)
 		std::cout<<"Invalid Index..\n";
 	}
 }
-
-void Print(Node* head)
+template<class T>
+void Print(Node<T>* head)
 {
-	Node* iter = head;
+	Node<T>* iter = head;
 	int index = 0;
 	while(iter != NULL)
 	{
@@ -136,25 +140,25 @@ void Print(Node* head)
 
 int main()
 {
-	Node* nodeList = NULL;
+	Node<float>* nodeList = NULL;
 	
-	PushFront(&nodeList,10.0f);
-	PushFront(&nodeList,20.0f);
-	PushFront(&nodeList,30.0f);
+	PushFront<float>(&nodeList,10.5f);
+	PushFront<float>(&nodeList,20.3f);
+	PushFront<float>(&nodeList,30.0f);
 
-	Print(nodeList);
+	Print<float>(nodeList);
 	
-	Delete(&nodeList,1);
-	Delete(&nodeList,0);
-	Delete(&nodeList,12);
+	Delete<float>(&nodeList,1);
+	Delete<float>(&nodeList,0);
+	Delete<float>(&nodeList,12);
 
-	Print(nodeList);
+	Print<float>(nodeList);
 
-	PushBack(&nodeList,1.0f);
-	PushBack(&nodeList,29.0f);
-	PushBack(&nodeList,30.0f);
+	PushBack<float>(&nodeList,1.5f);
+	PushBack<float>(&nodeList,29.4f);
+	PushBack<float>(&nodeList,30.6f);
 
-	Print(nodeList);
+	Print<float>(nodeList);
 
 	return 0;
 }
