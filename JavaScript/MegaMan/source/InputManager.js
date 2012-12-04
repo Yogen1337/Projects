@@ -1,61 +1,84 @@
 var keyBuffer = [];
-var keyComboBuffer = [];
-var keys = [];  
-var currentKey = new Object();
-var lastKey = new Object();
-lastKey.time = 0;
-var comboTimeThreshold = 100;
-var keyPressed = false;
-var potentialDouble = false;
 
+var keyComboBuffer = [];
+
+var keys = [];  
+
+var currentKey = new Object();
+
+var lastKey = new Object();
+
+lastKey.time = 0;
+
+var comboTimeThreshold = 100;
+
+var keyPressed = false;
+
+var potentialDouble = false
+    
+var movementMultiplier = 1;
 
 var A = 65;
+
 var D = 68;
+
 var S = 83;
+
 var W = 87;
+
 var Space = 32;
+
+var doubleTap = false;
 
 function Update_Input( )
 {
     if(keyPressed)
     {
         var dt = currentKey.time - lastKey.time;
+        
         if(dt <= comboTimeThreshold && dt > 0 && potentialDouble)
         {
-           processUserInput("Double");
+            doubleTap = true;
+            movementMultiplier = 3;
         }
         else
         {
-            processUserInput("Single");
+            doubleTap = false;
+            movementMultiplier = 1;
         }
+        
+        playerMove();
     }
 }
 
-function processUserInput(type)
-{
-    playerMove(type);    
-}
-
-function playerMove(type)
-{
-    var movementMultiplier = 1;
-    
-    if(type == "Double")
-    {
-        movementMultiplier = 3;
-    }
-    
+function playerMove()
+{    
     var vel = player.object.GetLinearVelocity();
     
-    if (keys[W] && player.canJump)
+    if (keys[W])
     {
-        vel.y = -300;
-        player.inAir = true;	
+        if(player.canJump)
+        {
+            //Check if double jump active
+            if(player.inAir == false)
+            {
+                vel.y = -300;
+                player.inAir = true;
+            }
+            else if(doubleTap == true && player.inAir == true)
+            {
+                vel.y = -100;
+                player.canJump = false;
+            }
+        }
     }
     
-    if(keys[S] && player.inAir)
+    if(keys[S])
     {
-        vel.y = 800;
+        if(player.inAir)
+        {
+            vel.y = 800;
+        }
     }
     
     if (keys[A])
@@ -67,11 +90,14 @@ function playerMove(type)
     {
         vel.x = player.speed * movementMultiplier;
     }
-    if(keys[Space] && doFire)
-    {
-        fireWeapon(player.object);
-        doFire = false;
-    }
+    
+    /*
+        if(keys[Space] && doFire)
+        {
+            fireWeapon(player.object);
+            doFire = false;
+        }
+    */
     
     player.object.SetLinearVelocity(vel);
 }

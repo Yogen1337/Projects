@@ -42,6 +42,6 @@ function loadLevel_0()
     player.speed = 100;
     player.inAir = true;
     
-    position.x += 200;
+    position.x += 600;
     var enemy = createObject('enemy',position);
 }

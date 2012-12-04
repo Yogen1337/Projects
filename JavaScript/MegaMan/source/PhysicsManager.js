@@ -13,6 +13,7 @@ function Update_Physics()
         {
             var playerObj = (collision.GetShape1().GetUserData() == 'player' ? collision.GetShape1(): collision.GetShape2());
             checkGroundCollision(playerObj);
+            checkWallCollision(playerObj);
             checkEnemyCollision(playerObj);
         }
         
@@ -31,8 +32,19 @@ function checkGroundCollision(type)
         var groundObj = (collision.GetShape1().GetUserData() == 'ground' ? collision.GetShape1().GetPosition() : collision.GetShape2().GetPosition());
         if (type.GetPosition().y <= groundObj.y)
         {
-            player.canJump = true;
             player.inAir = false;
+            player.canJump = true;
+        }
+    }
+}
+
+function checkWallCollision(type)
+{
+    if ((collision.GetShape1().GetUserData() == 'wall' || collision.GetShape2().GetUserData() == 'wall'))
+    {
+        if(player.inAir && player.isWallJump == false)
+        {
+            player.isWallJump = true;
         }
     }
 }

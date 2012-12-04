@@ -1,9 +1,6 @@
 // some variables that we gonna use in this demo  
 var initId = 0;  
-var player = function(){  
-    this.object = null;  
-    this.canJump = false;
-};  
+ 
 var world;  
 var ctx;  
 var canvasWidth;  
@@ -28,12 +25,6 @@ function Update()
     Update_Graphics();
     
     setTimeout('Update()', 10);  
-}
-
-function Update_Graphics( )
-{
-    ctx.clearRect(0, 0, canvasWidth, canvasHeight);  
-    drawWorld(world, ctx);
 }
 
 // HTML5 onLoad event  
