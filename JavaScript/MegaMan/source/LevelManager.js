@@ -30,15 +30,27 @@ function createLevel(level)
                     
 function loadLevel_0()
 {
-    createBox(world, 5, 400, 775, 10, true, 'ground');
-    createBox(world, 785, 10, 10, 380, true, 'wall');
-    createBox(world, 10, 10, 10, 380, true, 'wall');
-    // create player
     var position = new Object();
+            
+    position.x = 20;
+    position.y = 400;
+    
+    createObject('ground', position);
+    
+    position.x = 785;
+    position.y = 10;
+    
+    createObject('wall', position);
+    
+    position.x = 10;
+    position.y = 10;
+    
+    createObject('wall', position);
+
     position.x = 20;
     position.y = 0;
             
-    player.object = createObject('player', position);
+    player = createObject('player', position);
     player.speed = 100;
     player.inAir = true;
     

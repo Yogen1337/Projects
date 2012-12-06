@@ -1,15 +1,6 @@
 function Update_Logic()
 {
-    for(var i = 0; i < objectList.length; ++i)
-    {
-        var obj = objectList[i];
-        if(obj.userData == "bullet")
-        {
-          var vel = objectPropertyList[i].GetLinearVelocity();  
-          vel.x = 100;
-          objectPropertyList[i].SetLinearVelocity(vel);
-        }
-    }
+    
 }
 
 function fireWeapon(obj)

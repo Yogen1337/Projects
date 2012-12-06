@@ -30,7 +30,7 @@ function Update()
 // HTML5 onLoad event  
 Event.observe(window, 'load', function() {  
     world = createWorld(); // box2DWorld  
-    ctx = $('game').getContext('2d'); // 2  
+    ctx = $('game').getContext('2d'); // 2
     var canvasElm = $('game');  
     canvasWidth = parseInt(canvasElm.width);  
     canvasHeight = parseInt(canvasElm.height);  

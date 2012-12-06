@@ -1,19 +1,28 @@
-var player = function(){  
-    this.object = null;  
-    this.canJump = false;
-    this.inAir = true;
-    this.isWallJump = false;
-    this.size = 12;
-}; 
-
+var player = function(){
+        this.type = "none";
+        this.object = null;
+        this.canJump = false;
+        this.inAir = false;
+        this.isWallJump = false;
+        this.size = 12;
+    }
 var objectList = [];
 var objectPropertyList = [];
 
 function createObject(type, position) 
 {
-    var newObj;
+    var gameObject = function(){
+        this.type = "none";
+        this.object = null;
+        this.canJump = false;
+        this.inAir = false;
+        this.isWallJump = false;
+        this.size = new Object();
+    }
     var ballSd;
     var ballBd;
+    
+    gameObject.type = type;
     
     if(type == "player")
     {
@@ -29,13 +38,14 @@ function createObject(type, position)
         ballBd.allowSleep = false;  
         ballBd.AddShape(ballSd);  
         ballBd.position.Set(position.x,position.y);
-        newObj = world.CreateBody(ballBd);
+        
+        gameObject.object = world.CreateBody(ballBd);
     }
     else if(type == "enemy")
     {
         ballSd = new b2CircleDef();  
         ballSd.density = 0.4;  
-        ballSd.radius = 24;  
+        ballSd.radius = 28;  
         ballSd.restitution = 0.2;  
         ballSd.friction = 1;  
         ballSd.userData = type;
@@ -45,7 +55,8 @@ function createObject(type, position)
         ballBd.allowSleep = false;  
         ballBd.AddShape(ballSd);  
         ballBd.position.Set(position.x,position.y);
-        newObj = world.CreateBody(ballBd);
+        
+        gameObject.object = world.CreateBody(ballBd);
     }
     else if(type == "bullet")
     {
@@ -61,10 +72,30 @@ function createObject(type, position)
         ballBd.allowSleep = false;  
         ballBd.AddShape(ballSd);  
         ballBd.position.Set(position.x,position.y);
-        newObj = world.CreateBody(ballBd);
+        
+        gameObject.object = world.CreateBody(ballBd);
+    }
+    else
+    {
+        var size = new Object();
+        
+        if(type == 'ground')
+        {
+            size.x = 775;
+            size.y = 10;
+        }
+        else if(type == 'wall')
+        {
+            size.x = 10;
+            size.y = 380;
+        }
+        
+        gameObject.object = createBox(world, position.x, position.y, size.x, size.y, true, type);
+        gameObject.size = size;
     }
     
     objectList.push(ballSd);
-    objectPropertyList.push(newObj);
-    return newObj;
+    objectPropertyList.push(gameObject);
+    
+    return gameObject;
 }
